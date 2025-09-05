@@ -1,4 +1,9 @@
-_get_five:
-    # add 5 to x0 and store the result in x10
-    addi x10, x0, 5
-    ret
+_initialize:
+    addi s1, zero, 2
+    addi s3, zero, 5
+
+
+_add_two_five_times:
+    add s2, s1, s2
+    addi s3, s3, -1
+    bnez s3, _add_two_five_times

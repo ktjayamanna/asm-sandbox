@@ -17,8 +17,16 @@ startqemu: main.elf
 
 connectgdb: main.elf
 	# Use GDB to attach to QEMU and step through the assembly code using the debug symbols in the ELF.
-	gdb-multiarch main.elf -ex 'target remote localhost:1234' -ex 'break _get_five' -ex 'continue' -q
+	gdb-multiarch main.elf -ex 'target remote localhost:1234' -ex 'break _add_two_five_times' -ex 'continue' -q
 
 clean: 
 	# Clean up generated files
 	@rm -f *.elf *.bin *.out
+
+hotreload: clean machinecode
+	@echo "Starting QEMU in background..."
+	@make startqemu &
+	@echo "Waiting for QEMU to start..."
+	@sleep 2
+	@echo "Connecting GDB..."
+	@make connectgdb
