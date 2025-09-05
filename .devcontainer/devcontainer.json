@@ -1,0 +1,48 @@
+{
+    "name": "Assembly & C Development Sandbox",
+    "build": {
+        "dockerfile": "../Dockerfile",
+        "context": "..",
+        "args": {
+            "BUILDKIT_INLINE_CACHE": "1"
+        }
+    },
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                // Augment Code extension - MOST IMPORTANT
+                "augment.vscode-augment",
+
+                // Essential C development
+                "ms-vscode.cpptools",
+
+                // Hex editor for binary analysis
+                "ms-vscode.hexeditor"
+            ],
+
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash",
+                "C_Cpp.default.cStandard": "c11",
+                "files.associations": {
+                    "*.s": "asm",
+                    "*.S": "asm",
+                    "*.asm": "asm"
+                }
+            }
+        }
+    },
+
+    // Use non-root user as defined in Dockerfile
+    "remoteUser": "dev",
+
+    // Mount the workspace
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+    "workspaceFolder": "/workspace",
+
+    // Enable debugging capabilities
+    "runArgs": [
+        "--cap-add=SYS_PTRACE",
+        "--security-opt", "seccomp=unconfined"
+    ]
+}
