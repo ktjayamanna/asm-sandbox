@@ -22,12 +22,11 @@ RUN apt-get update -y && apt-get install -y \
     wget \
     nano \
     sudo \
+    # Hex dumping utility (xxd is part of vim-common)
+    vim-common \
     # Clean up to reduce image size
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
-
-# Install xxd for hex dumping
-RUN apt install -y xxd
 
 # Create a non-root user for development with proper permissions
 RUN useradd -m -s /bin/bash -u 1000 dev && \
@@ -38,6 +37,8 @@ RUN useradd -m -s /bin/bash -u 1000 dev && \
 # Install gdb-dashboard for better debugging experience
 RUN wget -O /home/dev/.gdbinit https://github.com/cyrus-and/gdb-dashboard/raw/master/.gdbinit && \
     chown dev:dev /home/dev/.gdbinit
+
+RUN apt-get update && apt-get install -y python3-pygments
 
 # Set up working directory
 WORKDIR /workspace
