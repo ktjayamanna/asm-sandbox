@@ -1,4 +1,4 @@
-# Simple array program: make 10 numbers, set them to 0, then add 1 to each
+# Simple array program: make 3 numbers, set them to 0, then add 1 to each
 
 # Register Roles
 # x1 - Array Base Address
@@ -13,7 +13,7 @@
 # Reset to 0 when starting the second loop
 # x3 - Loop Limit
 
-# Holds the value 10 (array size)
+# Holds the value 3 (array size)
 # Used in beq x2, x3, done to check if we've processed all elements
 # Constant throughout the program
 # x4 - Byte Offset
@@ -43,7 +43,7 @@
 
 .section .data
 my_array:
-    .word 0, 0, 0, 0, 0, 0, 0, 0, 0, 0    # .word directive allocates and initializes memory for one or more 32-bit words.
+    .word 0, 0, 0  # .word directive allocates and initializes memory for one or more 32-bit words.
 
 .section .text
 .global _start
@@ -51,10 +51,10 @@ my_array:
 _start:
     la x1, my_array     # x1 = array address, loads the starting address of my_array into x1 (label contains the starting addess).
     addi x2, x0, 0      # x2 = counter (start at 0)
-    addi x3, x0, 10     # x3 = array size (10)
+    addi x3, x0, 3     # x3 = array size (3)
 
 loop:
-    beq x2, x3, done    # if counter == 10, we're done
+    beq x2, x3, done    # if counter == 3, we're done
     
     slli x4, x2, 2      # x4 = counter * 4 (byte offset)
     add x5, x1, x4      # x5 = address of array[counter]
