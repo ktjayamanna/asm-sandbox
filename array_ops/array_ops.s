@@ -43,13 +43,13 @@
 
 .section .data
 my_array:
-    .word 0, 0, 0, 0, 0, 0, 0, 0, 0, 0    # Array already starts as zeros
+    .word 0, 0, 0, 0, 0, 0, 0, 0, 0, 0    # .word directive allocates and initializes memory for one or more 32-bit words.
 
 .section .text
 .global _start
 
 _start:
-    la x1, my_array     # x1 = array address
+    la x1, my_array     # x1 = array address, loads the starting address of my_array into x1 (label contains the starting addess).
     addi x2, x0, 0      # x2 = counter (start at 0)
     addi x3, x0, 10     # x3 = array size (10)
 
