@@ -57,7 +57,7 @@ zero_loop:                                  # Label: <label_name>:
     addi x2, x2, 1                          # Instruction: addi <dest_reg>, <src_reg>, <immediate>
     j zero_loop                             # Instruction: j <label>
 
-# Step 3: Add 1 to each element
+# Step 3: Reset the counter back to zero.
 add_loop_start:                             # Label: <label_name>:
     addi x2, x0, 0                          # Instruction: addi <dest_reg>, <src_reg>, <immediate>
 
