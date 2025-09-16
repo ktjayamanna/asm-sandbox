@@ -1,6 +1,10 @@
+#include <stdio.h>
+
+
+
 int main(void) {
 
-    char my_char = 69;
+    unsigned char my_char = 169;
     printf("my_char: %c\n", my_char);
     return 0;
 }
