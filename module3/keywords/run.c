@@ -1,10 +1,9 @@
 #include <stdio.h>
 
-
-
 int main(void) {
+    unsigned int a = 1;
+    unsigned int b = 2;
+    unsigned int c = a + b;
 
-    unsigned char my_char = 169;
-    printf("my_char: %c\n", my_char);
-    return 0;
+    return c;
 }
