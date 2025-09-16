@@ -42,6 +42,11 @@ run-all: all
 	@echo -e "\n=== Running Modifiers Example ==="
 	./modifiers.exe
 
+# playground file to try your own code.
+run:
+	gcc -o run.exe run.c
+	./run.exe
+
 # Clean up compiled files
 clean:
 	rm -f $(TARGETS)
