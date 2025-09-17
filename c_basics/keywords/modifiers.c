@@ -54,9 +54,51 @@ int main(void) {
     
     // const with pointers
     int value1 = 10, value2 = 20;
-    
+
+    // === Understanding & (address-of) operator and memory locations ===
+    printf("\n--- Memory Addresses Example ---\n");
+    printf("value1 = %d, stored at address: %p\n", value1, (void*)&value1);
+    printf("value2 = %d, stored at address: %p\n", value2, (void*)&value2);
+    printf("Notice: Each variable has a unique memory address!\n");
+
+    // Practice: Try to predict what these will print before running
+    printf("\n--- Practice Problem ---\n");
+    printf("BEFORE looking at output, try to predict:\n");
+    printf("1. Will &value1 and &value2 have the same address? (yes/no)\n");
+    printf("2. What does &value1 give us? (the value 10, or the address where 10 is stored?)\n");
+    printf("\nAnswers:\n");
+    printf("1. No - each variable gets its own memory location\n");
+    printf("2. The address where 10 is stored (not the value 10 itself)\n");
+    printf("   &value1 = %p (this is a memory address)\n", (void*)&value1);
+    printf("   value1  = %d (this is the actual value)\n", value1);
+
+    // === Understanding * (dereference) operator ===
+    printf("\n--- Dereference Operator (*) Example ---\n");
+    int* simple_ptr = &value1;  // simple_ptr now holds the address of value1
+    printf("simple_ptr points to address: %p\n", (void*)simple_ptr);
+    printf("*simple_ptr gives us the VALUE at that address: %d\n", *simple_ptr);
+
+    printf("\n--- Practice Problem for * operator ---\n");
+    printf("BEFORE looking at output, try to predict:\n");
+    printf("1. If simple_ptr = %p, what will *simple_ptr be?\n", (void*)simple_ptr);
+    printf("2. Is *simple_ptr the same as value1? (yes/no)\n");
+    printf("3. What happens if we change *simple_ptr = 99?\n");
+    printf("\nAnswers:\n");
+    printf("1. *simple_ptr = %d (the value stored at that address)\n", *simple_ptr);
+    printf("2. Yes! *simple_ptr and value1 are the same: %d\n", value1);
+
+    *simple_ptr = 99;  // Change the value through the pointer
+    printf("3. After *simple_ptr = 99:\n");
+    printf("   value1 is now: %d (changed!)\n", value1);
+    printf("   *simple_ptr is: %d (same as value1)\n", *simple_ptr);
+    printf("   Key insight: * lets us access/modify the value at an address!\n");
+
+    // Reset for next examples
+    value1 = 10;
+
     // Pointer to const int (cannot change the value through pointer)
     const int* ptr_to_const = &value1;
+    printf("\n--- Pointer to Const Example ---\n");
     printf("Value through const pointer: %d\n", *ptr_to_const);
     // *ptr_to_const = 15;  // Error! Cannot modify value through const pointer
     ptr_to_const = &value2;  // OK! Can change what pointer points to
