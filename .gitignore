@@ -3,3 +3,7 @@
 *.gdb_history
 *.out
 *.exe
+*.s
+*.o
+run
+.vscode
