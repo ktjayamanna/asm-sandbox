@@ -27,3 +27,13 @@
 - **ABI**: Application Binary Interface defining memory layout rules
 - **Optimization**: Compiler decisions about padding and memory layout
 - **Debug Symbols**: Optional metadata preserving type information
+
+## Terminal Modes
+- **Cooked Mode**: Line buffering, backspace works (default)
+- **Raw Mode**: Character-at-a-time input, no line editing (i.e. nano)
+- **VT100**: 1978 hardware terminal that modern terminals emulate.
+- **Shell**: Program that interprets and executes commands (i.e. bash)
+- **Buffering**: holding keystrokes in temporary memory
+- **Character Echoing**: Typed characters are displayed on screen
+- **Line Buffering**: Input is collected until Enter is pressed
+- **Line Editing**: Backspace, delete word, etc. are handled automatically

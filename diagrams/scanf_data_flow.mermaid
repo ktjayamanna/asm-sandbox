@@ -1,0 +1,8 @@
+---
+id: 2a17a910-ab21-4332-ac20-d22a44dac3f7
+---
+flowchart LR
+    K[User presses<br>'L' key] --> T
+    T[Terminal Emulator<br>GNOME Terminal] -->|write 'L' byte| M[Master PTY]
+    M -->|Kernel routes data| S[Slave PTY<br>/dev/pts/2]
+    S -->|read syscall returns| P[Shell/Program<br>receives 'L']

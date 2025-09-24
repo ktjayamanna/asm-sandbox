@@ -1,28 +1,45 @@
+#include <termios.h>
+#include <unistd.h>
 #include <stdio.h>
-#include <math.h>
+
+void setup_raw_mode() {
+    struct termios tty;
+    tcgetattr(0, &tty);
+
+    // 1. Cooked Mode (default - line editing)
+    tty.c_lflag |= (ICANON | ECHO);
+
+    // 2. Raw Mode (programs like vim)
+    tty.c_lflag &= ~(ICANON | ECHO);
+
+    // 3. Apply changes
+    tcsetattr(0, TCSANOW, &tty);
+}
+
+
+
+// Final project: A basic terminal input logger
+void monitor_terminal() {
+    setup_raw_mode();
+    
+    printf("Terminal Monitor - Press keys (q to quit)\r\n");
+    
+    unsigned char c;
+    while (read(0, &c, 1) > 0 && c != 'q') {
+        if (c == 0x1B) {
+            printf("[ESC]");
+            // Read the rest of escape sequence
+            read(0, &c, 1);  // '['
+            read(0, &c, 1);  // 'A','B','C','D'
+            printf(" sequence: %c\r\n", c);
+        } else {
+            printf("Char: 0x%02X '%c'\r\n", c, 
+                   (c >= 32 && c < 127) ? c : '.');
+        }
+    }
+}
 
 int main() {
-    // Example 1: Decimal fraction imprecision
-    float f = 0.1f;
-    double d = 0.1;
-    
-    printf("0.1 as float: %.20f\n", f);
-    printf("0.1 as double: %.20lf\n", d);
-    
-    // Example 2: Accumulation error
-    float sum = 0.0f;
-    for (int i = 0; i < 10; i++) {
-        sum += 0.1f;
-    }
-    printf("10 * 0.1 = %.10f (should be exactly 1.0)\n", sum);
-    printf("Equal to 1.0? %s\n", sum == 1.0f ? "Yes" : "No");
-    
-    // Example 3: Comparison problems
-    double a = 0.1 + 0.2;
-    double b = 0.3;
-    printf("0.1 + 0.2 == 0.3? %s\n", a == b ? "Yes" : "No");
-    printf("0.1 + 0.2 = %.20lf\n", a);
-    printf("0.3 = %.20lf\n", b);
-    
+    monitor_terminal();
     return 0;
 }

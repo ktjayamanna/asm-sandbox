@@ -1,0 +1,9 @@
+---
+id: 67b52489-b62e-4e57-8db5-44bc147153ad
+---
+flowchart LR
+    P[Program writes<br>printf &quot;Hello&quot;]
+    P -->|write syscall| S[Slave PTY<br>/dev/pts/2]
+    S -->|Kernel routes data| M[Master PTY]
+    M -->|read| T[Terminal Emulator<br>GNOME Terminal]
+    T -->|Renders text| G[Graphical Screen]
