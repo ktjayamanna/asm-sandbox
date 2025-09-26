@@ -4,6 +4,12 @@
  */
 
  #include <stdio.h>
+ #include <string.h>
+
+ void clear_input_buffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
 
  char choose_operation() {
     // Feature 2: Operation menu with character input
@@ -17,8 +23,17 @@
     printf("🚪 q) Quit\n");
     printf("Enter choice: ");
     scanf(" %c", &choice);
+    clear_input_buffer();  // Clear the newline left by scanf
     return choice;
  }
+
+void get_number(char prompt[], char number[]) {
+
+    printf(prompt);
+    fgets(number, sizeof(number), stdin);
+    number[strcspn(number, "\n")] = '\0';
+}
+
 
 
 
@@ -48,6 +63,12 @@
 
  int main() {
      memory_info();
-     choose_operation();
+     char choice = choose_operation();
+     char number1[100];
+     char number2[100];
+     get_number("Enter first 100 digits number: ", number1);
+     printf("Number 1 received: %s\n", number1);
+     get_number("Enter second 100 digits number: ", number2);
+     printf("Number 2 received: %s\n", number2);
      return 0;
  }
