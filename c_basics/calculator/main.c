@@ -33,6 +33,26 @@ void get_number(char prompt[], double *number) {
     clear_input_buffer();  // Clear the newline left by scanf
 }
 
+double add_numbers(double a, double b) {
+    return a + b;
+}
+
+double subtract_numbers(double a, double b) {
+    return a - b;
+}
+
+double multiply_numbers(double a, double b) {
+    return a * b;
+}
+
+double divide_numbers(double a, double b) {
+    if (b == 0) {
+        printf("❌ ERROR: Division by zero is undefined!\n");
+        return 0;
+    }
+    return a / b;
+}
+
  void memory_info() {
     // Feature 1: Type size display using sizeof
     printf("🧮 ✨ CALCULATOR MEMORY ANALYSIS ✨ 🧮\n");
@@ -59,5 +79,28 @@ void get_number(char prompt[], double *number) {
      double number2;
      get_number("Enter first number: ", &number1);
      get_number("Enter second number: ", &number2);
+     switch (choice) {
+        case 'a':
+            printf("Result: %f\n", add_numbers(number1, number2));
+            break;
+        case 's':
+            printf("Result: %f\n", subtract_numbers(number1, number2));
+            break;
+        case 'm':
+            printf("Result: %f\n", multiply_numbers(number1, number2));
+            break;
+        case 'd':
+            printf("Result: %f\n", divide_numbers(number1, number2));
+            break;
+        case 'h':
+            printf("History not implemented yet!\n");
+            break;
+        case 'q':
+            printf("Goodbye!\n");
+            break;
+        default:
+            printf("Invalid choice!\n");
+            break;
+     }
      return 0;
  }
