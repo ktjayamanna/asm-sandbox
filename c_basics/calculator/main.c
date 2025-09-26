@@ -27,20 +27,11 @@
     return choice;
  }
 
-void get_number(char prompt[], char number[]) {
-
+void get_number(char prompt[], double *number) {
     printf(prompt);
-    fgets(number, sizeof(number), stdin);
-    number[strcspn(number, "\n")] = '\0';
+    scanf("%lf", number);
+    clear_input_buffer();  // Clear the newline left by scanf
 }
-
-
-
-
-
-
-
-
 
  void memory_info() {
     // Feature 1: Type size display using sizeof
@@ -64,11 +55,9 @@ void get_number(char prompt[], char number[]) {
  int main() {
      memory_info();
      char choice = choose_operation();
-     char number1[100];
-     char number2[100];
-     get_number("Enter first 100 digits number: ", number1);
-     printf("Number 1 received: %s\n", number1);
-     get_number("Enter second 100 digits number: ", number2);
-     printf("Number 2 received: %s\n", number2);
+     double number1;
+     double number2;
+     get_number("Enter first number: ", &number1);
+     get_number("Enter second number: ", &number2);
      return 0;
  }
