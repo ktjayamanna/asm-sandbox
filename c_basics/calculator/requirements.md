@@ -34,19 +34,7 @@ Enter choice: a
 ```
 **Why This Teaches**: Demonstrates character handling and control flow. Using single characters instead of integers teaches ASCII values and efficient input processing.
 
-### Feature 3: Calculation Counter with Static Variables
-**Implementation**: Must use `static` variables inside functions to count total calculations performed across all function calls.
-**Required C Concepts**: `static` storage class, function scope, persistent variables
-**Expected Behavior**:
-```
-Calculation #1: 5 + 3 = 8
-Calculation #2: 10 - 4 = 6
-Calculation #3: 7 * 2 = 14
-Total calculations performed: 3
-```
-**Why This Teaches**: Demonstrates how `static` variables maintain state between function calls, crucial for embedded state machines.
-
-### Feature 4: Constant Mathematical Values
+### Feature 3: Constant Mathematical Values
 **Implementation**: Must define mathematical constants using `const` qualifier and use them in calculations.
 **Required C Concepts**: `const` qualifier, mathematical constants, read-only data
 **Expected Behavior**:
@@ -126,9 +114,9 @@ History Entry #3: 7.0 * 2.0 = 14.0
 ```
 **Why This Teaches**: Structs group related data together. Static arrays persist between function calls. Essential for embedded systems that track sensor readings or system states.
 
-### Feature 11: Input Retry Loop with For and Continue
-**Implementation**: Must use `for` loop to limit input attempts (max 3 tries) and `continue` to restart input collection on invalid input.
-**Required C Concepts**: `for` loops, `continue` statement, loop counters, input validation
+### Feature 10: Input Retry Loop with For, Continue, and Static Variables
+**Implementation**: Must use `for` loop to limit input attempts (max 3 tries), `continue` to restart input collection on invalid input, and `static` variables to track total failed attempts across all function calls.
+**Required C Concepts**: `for` loops, `continue` statement, loop counters, input validation, `static` storage class
 **Expected Behavior**:
 ```
 Enter a number (attempt 1/3): abc
@@ -136,11 +124,17 @@ Invalid input! Try again.
 Enter a number (attempt 2/3): xyz
 Invalid input! Try again.
 Enter a number (attempt 3/3): 42
-Success!
-```
-**Why This Teaches**: Shows controlled iteration and flow control. Prevents infinite loops from bad input. Critical for robust embedded systems that must handle sensor failures.
+Success! Total failed attempts this session: 2
 
-### Feature 12: Register Optimization Demonstration
+[Later in program...]
+Enter a number (attempt 1/3): def
+Invalid input! Try again.
+Enter a number (attempt 2/3): 15
+Success! Total failed attempts this session: 3
+```
+**Why This Teaches**: Shows controlled iteration, flow control, and how `static` variables persist between function calls. Critical for robust embedded systems that track error statistics.
+
+### Feature 11: Register Optimization Demonstration
 **Implementation**: Must use `register` keyword for loop counter in a performance-critical calculation (like computing factorial) and time the difference.
 **Required C Concepts**: `register` storage class, performance optimization, loop optimization
 **Expected Behavior**:
@@ -151,7 +145,7 @@ normal int: 2432902008176640000 (computed in 0.002ms)
 ```
 **Why This Teaches**: Shows compiler optimization hints. While modern compilers often ignore `register`, understanding performance considerations is crucial for embedded systems.
 
-### Feature 13: Memory Union Demonstration
+### Feature 12: Memory Union Demonstration
 **Implementation**: Must create a `union` that can store the same memory location as either an `int` or `float` to show memory overlap and type punning.
 **Required C Concepts**: `union`, memory layout, type punning, memory efficiency
 **Expected Behavior**:
@@ -163,7 +157,7 @@ Union size: 4 bytes (same as largest member)
 ```
 **Why This Teaches**: Unions save memory by overlapping data. Common in embedded systems for hardware register access where the same memory location can be interpreted as different data types.
 
-### Feature 14: Volatile Flag for Graceful Shutdown
+### Feature 13: Volatile Flag for Graceful Shutdown
 **Implementation**: Must use `volatile` global variable that can be modified by signal handler (Ctrl+C) to gracefully exit the calculator loop.
 **Required C Concepts**: `volatile` qualifier, global variables, signal handling, compiler optimization prevention
 **Expected Behavior**:
@@ -175,7 +169,7 @@ Calculator exited cleanly.
 ```
 **Why This Teaches**: `volatile` prevents compiler optimizations that assume variables don't change unexpectedly. Essential for embedded systems where hardware can modify memory locations.
 
-### Feature 15: Assembly Code Generation and Analysis
+### Feature 14: Assembly Code Generation and Analysis
 **Implementation**: Must include a Makefile target that generates assembly code for key functions and requires documentation of the differences between optimized and unoptimized assembly.
 **Required C Concepts**: Compilation process, assembly language, compiler optimizations, build systems
 **Expected Behavior**:
@@ -187,7 +181,7 @@ Assembly files generated. Compare the optimization differences.
 ```
 **Why This Teaches**: Understanding the assembly output helps you write more efficient C code. Critical for embedded systems where you need to understand the machine-level implications of your code.
 
-### Feature 16: ASCII Character Analysis
+### Feature 15: ASCII Character Analysis
 **Implementation**: Must display ASCII values of operation characters and demonstrate character arithmetic. Must show how characters are stored as integers.
 **Required C Concepts**: ASCII encoding, character literals, character arithmetic, type casting between `char` and `int`
 **Expected Behavior**:
@@ -202,7 +196,7 @@ Character arithmetic: 'A' + 1 = 'B' (65 + 1 = 66)
 ```
 **Why This Teaches**: Shows how characters are just small integers. Essential for embedded systems that process communication protocols or control character-based displays.
 
-### Feature 17: Unicode Emoji Calculator Interface
+### Feature 16: Unicode Emoji Calculator Interface
 **Implementation**: Must use UTF-8 encoded emoji characters to create a beautiful calculator interface. Must demonstrate multi-byte character handling and string literals.
 **Required C Concepts**: UTF-8 encoding, multi-byte characters, string literals, locale handling
 **Expected Behavior**:
@@ -224,7 +218,7 @@ Enter choice: a
 ```
 **Why This Teaches**: Modern embedded systems often need to display Unicode text on screens or send UTF-8 data over networks. Understanding multi-byte encoding is crucial.
 
-### Feature 18: Character Encoding Converter
+### Feature 17: Character Encoding Converter
 **Implementation**: Must create functions to convert between different character representations (ASCII decimal, hex, binary) and demonstrate how multi-byte UTF-8 characters are encoded.
 **Required C Concepts**: Bitwise operations, character encoding, byte manipulation, hexadecimal representation
 **Expected Behavior**:
@@ -246,7 +240,7 @@ UTF-8 Analysis:
 ```
 **Why This Teaches**: Embedded systems often need to parse communication protocols that mix ASCII and Unicode. Understanding byte-level encoding is essential for protocol implementation.
 
-### Feature 19: Comprehensive Error Code System with Emoji
+### Feature 18: Comprehensive Error Code System with Emoji
 **Implementation**: Must define error codes using `#define` preprocessor directives and display errors with appropriate emoji indicators for visual feedback.
 **Required C Concepts**: Preprocessor directives, `#define`, error handling patterns, function return values, Unicode string literals
 **Expected Behavior**:
@@ -265,55 +259,54 @@ UTF-8 Analysis:
 
 ## Complete Feature Implementation Checklist
 
-### Core Data Types & Memory (Features 1, 13)
+### Core Data Types & Memory (Features 1, 12)
 - [ ] Feature 1: Type size display using `sizeof`
-- [ ] Feature 13: Union memory overlap demonstration
+- [ ] Feature 12: Union memory overlap demonstration
 
-### Control Flow & Program Structure (Features 2, 5, 11)
+### Control Flow & Program Structure (Features 2, 4, 10)
 - [ ] Feature 2: Character-based menu with `switch/case`
-- [ ] Feature 5: Main loop with `while/continue/break`
-- [ ] Feature 11: Input retry with `for` loop and `continue`
+- [ ] Feature 4: Main loop with `while/continue/break`
+- [ ] Feature 10: Input retry with `for` loop, `continue`, and `static` variables
 
-### Storage Classes & Persistence (Features 3, 10, 12, 14)
-- [ ] Feature 3: Calculation counter with `static` variables
-- [ ] Feature 10: History storage with `static` struct arrays
-- [ ] Feature 12: Performance demo with `register` keyword
-- [ ] Feature 14: Graceful shutdown with `volatile` flag
+### Storage Classes & Persistence (Features 9, 11, 13)
+- [ ] Feature 9: History storage with `static` struct arrays
+- [ ] Feature 11: Performance demo with `register` keyword
+- [ ] Feature 13: Graceful shutdown with `volatile` flag
 
-### Constants & Read-Only Data (Feature 4)
-- [ ] Feature 4: Mathematical constants with `const` qualifier
+### Constants & Read-Only Data (Feature 3)
+- [ ] Feature 3: Mathematical constants with `const` qualifier
 
-### Integer Types (Feature 6)
-- [ ] Feature 6: Unsigned integer operations and ranges
+### Integer Types (Feature 5)
+- [ ] Feature 5: Unsigned integer operations and ranges
 
-### Modular Programming (Features 7, 8, 9, 19)
-- [ ] Feature 7: Function return codes and error handling
-- [ ] Feature 8: Multi-file structure with `extern` declarations
-- [ ] Feature 9: Type system with `enum` and `typedef`
-- [ ] Feature 19: Error codes with `#define` and emoji feedback
+### Modular Programming (Features 6, 7, 8, 18)
+- [ ] Feature 6: Function return codes and error handling
+- [ ] Feature 7: Multi-file structure with `extern` declarations
+- [ ] Feature 8: Type system with `enum` and `typedef`
+- [ ] Feature 18: Error codes with `#define` and emoji feedback
 
-### Character Encoding & Unicode (Features 16, 17, 18)
-- [ ] Feature 16: ASCII character analysis and arithmetic
-- [ ] Feature 17: Unicode emoji calculator interface
-- [ ] Feature 18: Character encoding converter (ASCII/UTF-8)
+### Character Encoding & Unicode (Features 15, 16, 17)
+- [ ] Feature 15: ASCII character analysis and arithmetic
+- [ ] Feature 16: Unicode emoji calculator interface
+- [ ] Feature 17: Character encoding converter (ASCII/UTF-8)
 
-### Assembly & Build System (Feature 15)
-- [ ] Feature 15: Assembly generation and optimization analysis
+### Assembly & Build System (Feature 14)
+- [ ] Feature 14: Assembly generation and optimization analysis
 
 ## Project Structure
 ```
 calculator/
-├── main.c              # Features 2, 5, 11, 14, 17 (menu, loops, input, signals, emoji UI)
-├── math_ops.c          # Features 3, 4, 7, 12 (operations, static counters, constants)
-├── calculator.h        # Features 8, 9, 19 (extern, enums, error codes with emoji)
-├── history.c           # Features 10, 13 (structs, unions)
-├── encoding.c          # Features 16, 18 (ASCII analysis, UTF-8 conversion)
-├── Makefile            # Feature 15 (assembly generation)
+├── main.c              # Features 2, 4, 10, 13, 16 (menu, loops, input, signals, emoji UI)
+├── math_ops.c          # Features 3, 6, 11 (constants, operations, register optimization)
+├── calculator.h        # Features 7, 8, 18 (extern, enums, error codes with emoji)
+├── history.c           # Features 9, 12 (structs, unions)
+├── encoding.c          # Features 15, 17 (ASCII analysis, UTF-8 conversion)
+├── Makefile            # Feature 14 (assembly generation)
 └── requirements.md     # This file
 ```
 
 ## Success Criteria
-By implementing all 19 features, you will have mastered every fundamental C concept:
+By implementing all 18 features, you will have mastered every fundamental C concept:
 - **All data types**: `char`, `int`, `long`, `float`, `double`, `unsigned`
 - **All qualifiers**: `const`, `volatile`, `static`, `extern`, `register`
 - **All control flow**: `if/else`, `switch/case`, `while`, `for`, `break`, `continue`, `return`

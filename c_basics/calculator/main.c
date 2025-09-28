@@ -6,9 +6,12 @@
  #include <stdio.h>
  #include <string.h>
 
- void clear_input_buffer() {
+ int clear_input_buffer() {
     int c;
+    static int clear_count = 0;  // Feature 3: Static variable to count clears
     while ((c = getchar()) != '\n' && c != EOF);
+    clear_count++;
+    return clear_count;
 }
 
  char choose_operation() {
