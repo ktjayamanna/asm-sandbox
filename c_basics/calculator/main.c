@@ -22,6 +22,7 @@
     printf("➖ s) Subtraction\n");
     printf("✖️  m) Multiplication\n");
     printf("➗ d) Division\n");
+    printf("📈 e)Circle Area\n");
     printf("📊 h) Show History\n");
     printf("🚪 q) Quit\n");
     printf("Enter choice: ");
@@ -56,6 +57,11 @@ double divide_numbers(double a, double b) {
     return a / b;
 }
 
+double circle_area(double radius) {
+    const double pi = 3.14159;
+    return pi * radius * radius;
+}
+
  void memory_info() {
     // Feature 1: Type size display using sizeof
     printf("🧮 ✨ CALCULATOR MEMORY ANALYSIS ✨ 🧮\n");
@@ -80,8 +86,10 @@ double divide_numbers(double a, double b) {
      char choice = choose_operation();
      double number1;
      double number2;
-     get_number("Enter first number: ", &number1);
-     get_number("Enter second number: ", &number2);
+     if (choice == 'a' || choice == 's' || choice == 'm' || choice == 'd') {
+        get_number("Enter first number: ", &number1);
+        get_number("Enter second number: ", &number2);
+     }
      switch (choice) {
         case 'a':
             printf("Result: %f\n", add_numbers(number1, number2));
@@ -97,6 +105,10 @@ double divide_numbers(double a, double b) {
             break;
         case 'h':
             printf("History not implemented yet!\n");
+            break;
+        case 'e':
+            get_number("Enter radius: ", &number1);
+            printf("Result: %f\n", circle_area(number1));
             break;
         case 'q':
             printf("Goodbye!\n");
