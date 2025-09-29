@@ -22,7 +22,8 @@
     printf("➖ s) Subtraction\n");
     printf("✖️  m) Multiplication\n");
     printf("➗ d) Division\n");
-    printf("📈 e)Circle Area\n");
+    printf("📈 e) Circle Area\n");
+    printf("|x| ab) Absolute Integer Value\n");
     printf("📊 h) Show History\n");
     printf("🚪 q) Quit\n");
     printf("Enter choice: ");
@@ -56,6 +57,21 @@ double divide_numbers(double a, double b) {
     }
     return a / b;
 }
+
+unsigned int absolute_value(int number) {
+    // Feature 6: Unsigned integer operations
+    if (number > 4294967295 || number < -4294967295){
+        printf("❌ ERROR: Number is too large or small for unsigned int!\n");
+        return 0;
+    }
+
+    if (number < 0) {
+        return (unsigned int)(-number);
+    }
+    return (unsigned int)number;
+}
+
+
 
 double circle_area(double radius) {
     const double pi = 3.14159;
@@ -111,6 +127,10 @@ double circle_area(double radius) {
             case 'e':
                 get_number("Enter radius: ", &number1);
                 printf("Result: %f\n", circle_area(number1));
+                break;
+            case 'ab':
+                get_number("Enter integer number: ", &number1);
+                printf("Result: %u\n", absolute_value((int)number1));
                 break;
             case 'q':
                 break;
