@@ -83,39 +83,42 @@ double circle_area(double radius) {
 
  int main() {
      memory_info();
-     char choice = choose_operation();
-     double number1;
-     double number2;
-     if (choice == 'a' || choice == 's' || choice == 'm' || choice == 'd') {
-        get_number("Enter first number: ", &number1);
-        get_number("Enter second number: ", &number2);
-     }
-     switch (choice) {
-        case 'a':
-            printf("Result: %f\n", add_numbers(number1, number2));
-            break;
-        case 's':
-            printf("Result: %f\n", subtract_numbers(number1, number2));
-            break;
-        case 'm':
-            printf("Result: %f\n", multiply_numbers(number1, number2));
-            break;
-        case 'd':
-            printf("Result: %f\n", divide_numbers(number1, number2));
-            break;
-        case 'h':
-            printf("History not implemented yet!\n");
-            break;
-        case 'e':
-            get_number("Enter radius: ", &number1);
-            printf("Result: %f\n", circle_area(number1));
-            break;
-        case 'q':
-            printf("Goodbye!\n");
-            break;
-        default:
-            printf("Invalid choice!\n");
-            break;
-     }
+     char choice;
+     while (choice != 'q') {
+        double number1;
+        double number2;
+        choice = choose_operation();
+        if (choice == 'a' || choice == 's' || choice == 'm' || choice == 'd') {
+            get_number("Enter first number: ", &number1);
+            get_number("Enter second number: ", &number2);
+        }
+        switch (choice) {
+            case 'a':
+                printf("Result: %f\n", add_numbers(number1, number2));
+                break;
+            case 's':
+                printf("Result: %f\n", subtract_numbers(number1, number2));
+                break;
+            case 'm':
+                printf("Result: %f\n", multiply_numbers(number1, number2));
+                break;
+            case 'd':
+                printf("Result: %f\n", divide_numbers(number1, number2));
+                break;
+            case 'h':
+                printf("History not implemented yet!\n");
+                break;
+            case 'e':
+                get_number("Enter radius: ", &number1);
+                printf("Result: %f\n", circle_area(number1));
+                break;
+            case 'q':
+                break;
+            default:
+                printf("Invalid choice pls try again!\n");
+        }
+        
+    }
+    printf("Goodbye!\n");
      return 0;
  }
