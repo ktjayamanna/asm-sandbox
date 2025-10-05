@@ -5,6 +5,7 @@
 
  #include <stdio.h>
  #include <string.h>
+ #include <float.h>
 
  int clear_input_buffer() {
     int c;
@@ -23,7 +24,7 @@
     printf("✖️  m) Multiplication\n");
     printf("➗ d) Division\n");
     printf("📈 e) Circle Area\n");
-    printf("|x| ab) Absolute Integer Value\n");
+    printf("|x| f) Absolute Integer Value\n");
     printf("📊 h) Show History\n");
     printf("🚪 q) Quit\n");
     printf("Enter choice: ");
@@ -38,24 +39,33 @@ void get_number(char prompt[], double *number) {
     clear_input_buffer();  // Clear the newline left by scanf
 }
 
-double add_numbers(double a, double b) {
-    return a + b;
+int add_numbers(double a, double b, double *result) {
+    if (*result < a || *result < b) {
+        printf("❌ ERROR: Overflow! Result is too large!\n");
+        *result = 0;
+        return -1;
+    }
+    *result = a + b;
+    return 0;
 }
 
-double subtract_numbers(double a, double b) {
-    return a - b;
+int subtract_numbers(double a, double b, double *result) {
+    *result = a - b;
+    return 0;
 }
 
 double multiply_numbers(double a, double b) {
     return a * b;
 }
 
-double divide_numbers(double a, double b) {
+int divide_numbers(double a, double b, double *result) {
     if (b == 0) {
         printf("❌ ERROR: Division by zero is undefined!\n");
-        return 0;
+        *result = 0;
+        return -1;
     }
-    return a / b;
+    *result = a / b;
+    return 0;
 }
 
 unsigned int absolute_value(int number) {
@@ -103,6 +113,7 @@ double circle_area(double radius) {
      while (choice != 'q') {
         double number1;
         double number2;
+        double result;
         choice = choose_operation();
         if (choice == 'a' || choice == 's' || choice == 'm' || choice == 'd') {
             get_number("Enter first number: ", &number1);
@@ -110,16 +121,19 @@ double circle_area(double radius) {
         }
         switch (choice) {
             case 'a':
-                printf("Result: %f\n", add_numbers(number1, number2));
+                add_numbers(number1, number2, &result);
+                printf("Result: %f\n", result);
                 break;
             case 's':
-                printf("Result: %f\n", subtract_numbers(number1, number2));
+                subtract_numbers(number1, number2, &result);
+                printf("Result: %f\n", result);
                 break;
             case 'm':
                 printf("Result: %f\n", multiply_numbers(number1, number2));
                 break;
             case 'd':
-                printf("Result: %f\n", divide_numbers(number1, number2));
+                divide_numbers(number1, number2, &result);
+                printf("Result: %f\n", result);
                 break;
             case 'h':
                 printf("History not implemented yet!\n");
@@ -128,7 +142,7 @@ double circle_area(double radius) {
                 get_number("Enter radius: ", &number1);
                 printf("Result: %f\n", circle_area(number1));
                 break;
-            case 'ab':
+            case 'f':
                 get_number("Enter integer number: ", &number1);
                 printf("Result: %u\n", absolute_value((int)number1));
                 break;
