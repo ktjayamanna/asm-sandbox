@@ -22,6 +22,7 @@ RUN apt-get update -y && apt-get install -y \
     wget \
     nano \
     sudo \
+    curl \
     # Hex dumping utility (xxd is part of vim-common)
     vim-common \
     # Clean up to reduce image size
