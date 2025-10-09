@@ -70,23 +70,14 @@ void get_boolean(char prompt[], int *bool_ptr) {
     } while(invalid_input);
 }
 
-void reinitialize_variables(float *a, float *b, float *result, char *choice, int *bool_ptr) {
-    *a = 0;
-    *b = 0;
-    *result = 0;
-    *choice = '\0';
-    *bool_ptr = 0;
-}
-
 int main(){
     printf("Welcome to the calculator!\n");
     int repeat = 1;
     while (repeat) {
-        float num1, num2, ans;
-        char choice;
+        float num1 = 0.0, num2 = 0.0, ans = 0.0;
+        char choice = '\0';
         get_number("Enter first number: ", &num1);
         get_number("Enter second number: ", &num2);
-        printf("num1: %f, num2: %f\n", num1, num2);
         int valid_choice = 0;
         while (!valid_choice) {
             choose_operation(&choice);
@@ -114,11 +105,10 @@ int main(){
         }
         printf("Result: %f\n", ans);
         get_boolean("Do you want to continue? (1/0):", &repeat);
-        clear_input_buffer();
         if (repeat == 0) {
             break;
         }
-        reinitialize_variables(&num1, &num2, &ans, &choice, &repeat);
+        clear_input_buffer();
     }
     return 0;
 }
