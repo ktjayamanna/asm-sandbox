@@ -21,7 +21,11 @@
                 "ms-vscode.hexeditor",
                 
                 // make file tools by ms
-                "ms-vscode.makefile-tools"
+                "ms-vscode.makefile-tools",
+
+                // windsurf
+                "codeium.codeium"
+
             ],
 
             "settings": {
