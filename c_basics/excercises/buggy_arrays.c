@@ -21,18 +21,27 @@ void bug_array_bounds() {
     printf("\n=== CHALLENGE 1: Array Bounds ===\n");
     int scores[5] = {85, 92, 78, 96, 88};
     int total = 0;
+    int count = 0;
 
     printf("Calculating average of 5 test scores...\n");
     printf("Expected total should be: 85+92+78+96+88 = 439\n");
-    printf("Expected average should be: 439/5 = 87.80\n\n");
+    printf("Expected average should be: 439/5 = 87.80\n");
+    printf("Expected to process: 5 elements\n\n");
 
-    for (int i = 0; i <= 5; i++) {
+    for (int i = 0; i < 5; i++) {
         printf("Adding score[%d] = %d\n", i, scores[i]);
         total += scores[i];
+        count++;
     }
 
-    printf("Actual total: %d, Actual average: %.2f\n", total, total / 5.0);
-    printf("Does this match the expected values?\n");
+    printf("\nRESULTS:\n");
+    printf("Expected elements: 5\n");
+    printf("Actually processed: %d elements\n", count, (count == 5) ? "✓" : "❌");
+    printf("Expected total: 439\n");
+    printf("Actual total: %d %s\n", total, (total == 439) ? "✓" : "❌");
+    printf("Expected average: 87.80\n");
+    printf("Actual average: %.2f %s\n", total / 5.0, (total / 5.0 == 87.80) ? "✓" : "❌");
+    printf("\n🚨 PROBLEM: Processing %d elements instead of 5!\n", count);
 }
 
 /*
@@ -64,16 +73,26 @@ void bug_2d_array_access() {
 
     printf("Matrix layout:\n");
     printf("Row 0: [1, 2, 3, 4]\n");
-    printf("Row 1: [5, 6, 7, 8]\n");
+    printf("Row 1: [5, 6, 7, 8]  <- We want matrix[1][2] = 7\n");
     printf("Row 2: [9, 10, 11, 12]\n\n");
 
     printf("Trying to access matrix[1][2] using pointer arithmetic...\n");
-    printf("Expected value: 7\n");
 
     int* calculated_ptr = (int*)matrix + 1 + 2;
-    printf("Calculated pointer result: %d\n", *calculated_ptr);
-    printf("Direct array access result: %d\n", matrix[1][2]);
-    printf("Do these match? If not, why?\n");
+    int calculated_result = *calculated_ptr;
+    int correct_result = matrix[1][2];
+
+    printf("RESULTS:\n");
+    printf("Expected value: 7\n");
+    printf("Pointer arithmetic result: %d %s\n",
+           calculated_result, (calculated_result == 7) ? "✓" : "❌");
+    printf("Direct array access result: %d ✓\n", correct_result);
+
+    if (calculated_result != correct_result) {
+        printf("\n🚨 PROBLEM: Pointer arithmetic gives %d but should be %d!\n",
+               calculated_result, correct_result);
+        printf("The pointer arithmetic formula is wrong!\n");
+    }
 }
 
 /*
@@ -136,18 +155,28 @@ void bug_buffer_overflow() {
     printf("\n=== CHALLENGE 4: Buffer Overflow ===\n");
     char source[] = "This string is way too long for the destination buffer!";
     char dest[20];
+    char canary[] = "CANARY";  // This will get overwritten!
 
     printf("Source string: \"%s\"\n", source);
     printf("Source length: %zu characters\n", strlen(source));
     printf("Destination buffer size: %zu characters\n", sizeof(dest));
-    printf("Will the source fit in the destination? %s\n\n",
-           (strlen(source) < sizeof(dest)) ? "YES" : "NO");
+    printf("Will source fit? %s\n",
+           (strlen(source) < sizeof(dest)) ? "YES ✓" : "NO ❌");
+    printf("Canary value before copy: \"%s\"\n\n", canary);
 
     printf("Attempting to copy...\n");
     strcpy(dest, source);
 
-    printf("Copy completed. Result: %s\n", dest);
-    printf("Did anything unexpected happen?\n");
+    printf("\nRESULTS:\n");
+    printf("Destination: \"%s\"\n", dest);
+    printf("Canary value after copy: \"%s\"\n", canary);
+
+    if (strcmp(canary, "CANARY") != 0) {
+        printf("\n🚨 PROBLEM: Buffer overflow detected!\n");
+        printf("The canary value was corrupted - memory was overwritten!\n");
+    } else {
+        printf("Canary intact ✓\n");
+    }
 }
 
 /*
@@ -187,19 +216,28 @@ void bug_struct_indexing() {
     printf("Employee array:\n");
     printf("employees[0]: ID=%d, Name=%s, Salary=%.2f\n",
            employees[0].id, employees[0].name, employees[0].salary);
-    printf("employees[1]: ID=%d, Name=%s, Salary=%.2f\n",
+    printf("employees[1]: ID=%d, Name=%s, Salary=%.2f  <- TARGET\n",
            employees[1].id, employees[1].name, employees[1].salary);
     printf("employees[2]: ID=%d, Name=%s, Salary=%.2f\n\n",
            employees[2].id, employees[2].name, employees[2].salary);
 
     printf("Trying to access employees[1] using pointer arithmetic...\n");
-    printf("Expected: ID=102, Name=Jane, Salary=55000.0\n");
 
     Employee* calculated_emp = (Employee*)((int*)employees + 2);
-    printf("Calculated result: ID=%d, Name=%s, Salary=%.2f\n",
-           calculated_emp->id, calculated_emp->name, calculated_emp->salary);
+    Employee* correct_emp = &employees[1];
 
-    printf("Does this match the expected values?\n");
+    printf("RESULTS:\n");
+    printf("Expected: ID=102, Name=Jane, Salary=55000.0\n");
+    printf("Pointer arithmetic: ID=%d, Name=%s, Salary=%.2f %s\n",
+           calculated_emp->id, calculated_emp->name, calculated_emp->salary,
+           (calculated_emp->id == 102) ? "✓" : "❌");
+    printf("Direct access: ID=%d, Name=%s, Salary=%.2f ✓\n",
+           correct_emp->id, correct_emp->name, correct_emp->salary);
+
+    if (calculated_emp->id != 102) {
+        printf("\n🚨 PROBLEM: Pointer arithmetic points to wrong employee!\n");
+        printf("Got ID %d instead of 102 (Jane)\n", calculated_emp->id);
+    }
 }
 
 /*
@@ -225,15 +263,23 @@ void bug_struct_indexing() {
 
 void process_array(int arr[], int size) {
     printf("Inside process_array function:\n");
+    int calculated_size = sizeof(arr) / sizeof(int);
     printf("sizeof(arr): %zu bytes\n", sizeof(arr));
     printf("sizeof(int): %zu bytes\n", sizeof(int));
-    printf("Calculated elements: %zu\n", sizeof(arr) / sizeof(int));
-    printf("Passed size parameter: %d\n\n", size);
+    printf("Calculated elements: %d\n", calculated_size);
+    printf("Passed size parameter: %d\n", size);
+
+    if (calculated_size != size) {
+        printf("🚨 MISMATCH: Calculated %d but expected %d elements!\n\n",
+               calculated_size, size);
+    }
 
     printf("Processing elements using sizeof calculation:\n");
-    for (int i = 0; i < (int)(sizeof(arr) / sizeof(int)); i++) {
+    for (int i = 0; i < calculated_size; i++) {
         printf("arr[%d] = %d\n", i, arr[i]);
     }
+
+    printf("\nElements processed: %d (should be %d)\n", calculated_size, size);
 }
 
 void bug_array_parameter() {
@@ -241,14 +287,16 @@ void bug_array_parameter() {
     int numbers[8] = {10, 20, 30, 40, 50, 60, 70, 80};
 
     printf("In main function:\n");
+    int main_elements = sizeof(numbers) / sizeof(int);
     printf("sizeof(numbers): %zu bytes\n", sizeof(numbers));
     printf("sizeof(int): %zu bytes\n", sizeof(int));
-    printf("Calculated elements: %zu\n", sizeof(numbers) / sizeof(int));
+    printf("Calculated elements: %d\n", main_elements);
     printf("Expected: Should process all 8 elements\n\n");
 
     process_array(numbers, 8);
 
-    printf("\nDid the function process all 8 elements correctly?\n");
+    printf("\n🚨 PROBLEM: Function processed wrong number of elements!\n");
+    printf("Expected 8 elements, but sizeof() gave different result in function.\n");
 }
 
 
