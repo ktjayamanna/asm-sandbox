@@ -66,8 +66,8 @@ void bug_array_bounds() {
 void bug_2d_array_access() {
     printf("\n=== CHALLENGE 2: 2D Array Access ===\n");
     int matrix[3][4] = {
-        {1, 2, 3, 4},
-        {5, 6, 7, 8},
+        {1, 2,  3,  4},
+        {5, 6,  7,  8},
         {9, 10, 11, 12}
     };
 
