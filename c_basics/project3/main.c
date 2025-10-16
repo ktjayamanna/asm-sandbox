@@ -123,12 +123,20 @@ void init_sensor(Sensor *sensors, unsigned char *count, unsigned char max_sensor
         {
         case TEMPERATURE:
             current_sensor.type = TEMPERATURE;
+            printf("What is the temperature min. range?/n");
+            scanf("%d", &current_sensor.data.temperature.min_range);
+            printf("What is the temperature max. range?/n");
+            scanf("%d", &current_sensor.data.temperature.max_range);
             break;
         case HUMIDITY:
             current_sensor.type = HUMIDITY;
+            printf("What is the humidity calibration factor?/n");
+            scanf("%f", &current_sensor.data.humidity.calibration);
             break;
         case PRESSURE:
             current_sensor.type = PRESSURE;
+            printf("What is the pressure altitude compensation?/n");
+            scanf("%d", &current_sensor.data.pressure.altitude);
             break;
 
         default:
