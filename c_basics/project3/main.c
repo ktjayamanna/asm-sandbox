@@ -94,42 +94,40 @@ void init_sensor(Sensor *sensors, unsigned char *count,
     return;
   }
   // TODO: Initialize sensor with type-specific configuration
-  unsigned char is_valid_input = 1;
-  Sensor current_sensor = sensors[*count];
+  Sensor *current_sensor = &sensors[*count];
   printf("Enter Sensor ID 0 - 255 \n");
-  scanf("%hhu", &current_sensor.id);
+  scanf("%hhu", &current_sensor->id);
   printf("Enter sensor name in 20 characters \n");
-  scanf("%19s", &current_sensor.name);
+  scanf("%19s", &current_sensor->name);
+  unsigned char is_valid_input;
 
   do {
+    is_valid_input = 1;
     printf("Enter sensor type (0=TEMP, 1=HUMID, 2=PRES): ");
-    scanf("%d", &current_sensor.type);
-    switch (current_sensor.type) {
+    scanf("%d", &current_sensor->type);
+    switch (current_sensor->type) {
     case TEMPERATURE:
-      current_sensor.type = TEMPERATURE;
-      printf("What is the temperature min. range?/n");
-      scanf("%d", &current_sensor.data.temperature.min_range);
-      printf("What is the temperature max. range?/n");
-      scanf("%d", &current_sensor.data.temperature.max_range);
+      printf("What is the temperature min. range?\n");
+      scanf("%d", &current_sensor->data.temperature.min_range);
+      printf("What is the temperature max. range?\n");
+      scanf("%d", &current_sensor->data.temperature.max_range);
       break;
     case HUMIDITY:
-      current_sensor.type = HUMIDITY;
-      printf("What is the humidity calibration factor?/n");
-      scanf("%f", &current_sensor.data.humidity.calibration);
+      printf("What is the humidity calibration factor?\n");
+      scanf("%f", &current_sensor->data.humidity.calibration);
       break;
     case PRESSURE:
-      current_sensor.type = PRESSURE;
-      printf("What is the pressure altitude compensation?/n");
-      scanf("%d", &current_sensor.data.pressure.altitude);
+      printf("What is the pressure altitude compensation?\n");
+      scanf("%d", &current_sensor->data.pressure.altitude);
       break;
 
     default:
-      current_sensor.type = UNK;
+      current_sensor->type = UNK;
       is_valid_input = 0;
       break;
     }
   } while (!is_valid_input);
-  current_sensor.status = ACTIVE;
+  current_sensor->status = ACTIVE;
   *count += 1;
 }
 
@@ -184,9 +182,25 @@ void display_sensors(Sensor *sensors, unsigned char count) {
   // TODO: Display sensor details, readings, and status
   printf("---------- Start-of-Sensor-Data ----------\n");
   for (int i = 0; i < count; i++) {
-    printf("Sensor ID: %d name: %s type: %d status: %d reading: %f\n\n",
-           sensors[i].id, sensors[i].name, sensors[i].type, sensors[i].status,
-           sensors[i].data.temperature.reading);
-    print("---------- End-of-Sensor-Data ----------\n");
+    SensorType sensor_type = sensors[i].type;
+    switch (sensor_type) {
+    case HUMIDITY:
+      printf("Sensor ID: %d, Name: %s, Type: Humidity, Reading: %f\n",
+             sensors[i].id, sensors[i].name, sensors[i].data.humidity.reading);
+      break;
+    case TEMPERATURE:
+      printf("Sensor ID: %d, Name: %s, Type: Temperature, Reading: %f\n",
+             sensors[i].id, sensors[i].name,
+             sensors[i].data.temperature.reading);
+      break;
+    case PRESSURE:
+      printf("Sensor ID: %d, Name: %s, Type: Pressure, Reading: %f\n",
+             sensors[i].id, sensors[i].name, sensors[i].data.pressure.reading);
+      break;
+    default:
+      printf("Sensor ID: %d, Name: %s, Type: Unknown, Reading: Unknown\n",
+             sensors[i].id, sensors[i].name);
+    }
+    printf("---------- End-of-Sensor-Data ----------\n");
   }
 }
