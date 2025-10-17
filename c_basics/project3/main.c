@@ -137,7 +137,7 @@ void read_sensor_data(Sensor *sensor) {
   switch (sensor->type) {
   case HUMIDITY:
     printf("Sensor ID: %d reading right now is %f ", sensor->id,
-           sensor->data.humidity);
+           sensor->data.humidity.reading);
     break;
   case TEMPERATURE:
     printf("Sensor ID: %d reading right now is %f ", sensor->id,
@@ -153,11 +153,30 @@ void read_sensor_data(Sensor *sensor) {
   }
 }
 
+float random_float_range(float min, float max) {
+  return min + (max - min) * ((float)rand() / RAND_MAX);
+}
+
 void process_sensor_data(Sensor *sensor) {
   // TODO: Apply type-specific processing logic
-  switch (sensor->type) {}
-
-  // TODO: Update sensor status based on processing
+  switch (sensor->type) {
+  case HUMIDITY:
+    sensor->data.humidity.reading =
+        (float)(rand() * sensor->data.humidity.calibration);
+    break;
+  case TEMPERATURE:
+    sensor->data.temperature.reading = random_float_range(
+        sensor->data.temperature.min_range, sensor->data.temperature.max_range);
+    break;
+  case PRESSURE:
+    sensor->data.pressure.reading =
+        (float)(rand() * sensor->data.pressure.altitude);
+    break;
+  default:
+    // TODO: Update sensor status based on processing logic
+    printf("Sensor ID: %d error", sensor->id);
+    sensor->status = ERROR;
+  }
 }
 
 void display_sensors(Sensor *sensors, unsigned char count) {
