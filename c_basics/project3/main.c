@@ -108,9 +108,9 @@ void init_sensor(Sensor *sensors, unsigned char *count,
     switch (current_sensor->type) {
     case TEMPERATURE:
       printf("What is the temperature min. range?\n");
-      scanf("%d", &current_sensor->data.temperature.min_range);
+      scanf("%hd", &current_sensor->data.temperature.min_range);
       printf("What is the temperature max. range?\n");
-      scanf("%d", &current_sensor->data.temperature.max_range);
+      scanf("%hd", &current_sensor->data.temperature.max_range);
       break;
     case HUMIDITY:
       printf("What is the humidity calibration factor?\n");
@@ -118,7 +118,7 @@ void init_sensor(Sensor *sensors, unsigned char *count,
       break;
     case PRESSURE:
       printf("What is the pressure altitude compensation?\n");
-      scanf("%d", &current_sensor->data.pressure.altitude);
+      scanf("%hd", &current_sensor->data.pressure.altitude);
       break;
 
     default:
@@ -161,7 +161,7 @@ void process_sensor_data(Sensor *sensor) {
   switch (sensor->type) {
   case HUMIDITY:
     sensor->data.humidity.reading =
-        (float)(rand() * sensor->data.humidity.calibration);
+        (float)(random_float_range(0, 100) * sensor->data.humidity.calibration);
     break;
   case TEMPERATURE:
     sensor->data.temperature.reading = random_float_range(
@@ -169,7 +169,7 @@ void process_sensor_data(Sensor *sensor) {
     break;
   case PRESSURE:
     sensor->data.pressure.reading =
-        (float)(rand() * sensor->data.pressure.altitude);
+        (float)(random_float_range(0, 100) * sensor->data.pressure.altitude);
     break;
   default:
     // TODO: Update sensor status based on processing logic
@@ -185,6 +185,8 @@ void display_sensors(Sensor *sensors, unsigned char count) {
     SensorType sensor_type = sensors[i].type;
     switch (sensor_type) {
     case HUMIDITY:
+      read_sensor_data(&sensors[i]);
+      process_sensor_data(&sensors[i]);
       printf("Sensor ID: %d, Name: %s, Type: Humidity, Reading: %f\n",
              sensors[i].id, sensors[i].name, sensors[i].data.humidity.reading);
       break;
