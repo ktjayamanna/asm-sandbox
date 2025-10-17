@@ -95,15 +95,15 @@ void init_sensor(Sensor *sensors, unsigned char *count,
   }
   // TODO: Initialize sensor with type-specific configuration
   Sensor *current_sensor = &sensors[*count];
-  printf("Enter Sensor ID 0 - 255 \n");
+  printf("Enter Sensor ID (0 - 255) \n");
   scanf("%hhu", &current_sensor->id);
-  printf("Enter sensor name in 20 characters \n");
+  printf("Enter sensor name (20 characters max) \n");
   scanf("%19s", &current_sensor->name);
-  unsigned char is_valid_input;
+  unsigned char is_valid_input = 0;
 
   do {
     is_valid_input = 1;
-    printf("Enter sensor type (0=TEMP, 1=HUMID, 2=PRES): ");
+    printf("\n ------- Enter sensor type (0=TEMP, 1=HUMID, 2=PRES): -------\n");
     scanf("%d", &current_sensor->type);
     switch (current_sensor->type) {
     case TEMPERATURE:
@@ -129,6 +129,9 @@ void init_sensor(Sensor *sensors, unsigned char *count,
   } while (!is_valid_input);
   current_sensor->status = ACTIVE;
   *count += 1;
+  printf("\n -------- Sensor ID: %d, Name: %s, Type: %d initialized "
+         "successfully --------\n",
+         current_sensor->id, current_sensor->name, current_sensor->type);
 }
 
 void read_sensor_data(Sensor *sensor) {
@@ -183,10 +186,9 @@ void display_sensors(Sensor *sensors, unsigned char count) {
   printf("---------- Start-of-Sensor-Data ----------\n");
   for (int i = 0; i < count; i++) {
     SensorType sensor_type = sensors[i].type;
+    process_sensor_data(&sensors[i]);
     switch (sensor_type) {
     case HUMIDITY:
-      read_sensor_data(&sensors[i]);
-      process_sensor_data(&sensors[i]);
       printf("Sensor ID: %d, Name: %s, Type: Humidity, Reading: %f\n",
              sensors[i].id, sensors[i].name, sensors[i].data.humidity.reading);
       break;
