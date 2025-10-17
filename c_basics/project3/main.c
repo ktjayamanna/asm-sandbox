@@ -151,6 +151,21 @@ void init_sensor(Sensor *sensors, unsigned char *count, unsigned char max_sensor
 void read_sensor_data(Sensor *sensor)
 {
     // TODO: Simulate sensor reading with random values
+    switch (sensor->type)
+    {
+    case HUMIDITY:
+        printf("Sensor ID: %d reading right now is %f ", sensor->id, sensor->data.humidity);
+        break;
+    case TEMPERATURE:
+        printf("Sensor ID: %d reading right now is %f ", sensor->id, sensor->data.temperature.reading);
+        break;
+    case PRESSURE:
+        printf("Sensor ID: %d reading right now is %f ", sensor->id, sensor->data.pressure.reading);
+        break;
+    default:
+        printf("Sensor ID: %d reading right now is unknown ", sensor->id);
+        break;
+    }
 }
 
 void process_sensor_data(Sensor *sensor)
