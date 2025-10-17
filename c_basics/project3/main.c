@@ -130,6 +130,7 @@ void init_sensor(Sensor *sensors, unsigned char *count,
     }
   } while (!is_valid_input);
   current_sensor.status = ACTIVE;
+  *count += 1;
 }
 
 void read_sensor_data(Sensor *sensor) {
@@ -181,4 +182,11 @@ void process_sensor_data(Sensor *sensor) {
 
 void display_sensors(Sensor *sensors, unsigned char count) {
   // TODO: Display sensor details, readings, and status
+  printf("---------- Start-of-Sensor-Data ----------\n");
+  for (int i = 0; i < count; i++) {
+    printf("Sensor ID: %d name: %s type: %d status: %d reading: %f\n\n",
+           sensors[i].id, sensors[i].name, sensors[i].type, sensors[i].status,
+           sensors[i].data.temperature.reading);
+    print("---------- End-of-Sensor-Data ----------\n");
+  }
 }
